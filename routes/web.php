@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/user/sheet', function () {
+    return view('layouts.app');
+})->name('appform');
