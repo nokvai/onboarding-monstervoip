@@ -32,7 +32,7 @@
             var seconds = 20;
 
             $("#intro").click(function() {
-                window.location.href = "{{ route('appform') }}";
+                window.location.href = "{{ route('onboardingindex') }}";
             });
 
             (function countdown() {
@@ -52,7 +52,7 @@
         <br />
         <br />
         <div>
-            <a id="intro" hidden href="{{ route('appform') }}"></a>
+            <a id="intro" hidden href="{{ route('onboardingindex') }}"></a>
         </div>
 
         <div>
@@ -71,7 +71,7 @@
             </p>
 
             <p style="text-align: center;">
-                <a class="btn btn-success" href="{{ route('appform') }}">Skip</a>
+                <a class="btn btn-success" href="{{ route('onboardingindex') }}">Skip</a>
             </p>
 
 

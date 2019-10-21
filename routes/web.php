@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/user/sheet', function () {
-    return view('layouts.app');
-})->name('appform');
+
+Route::get('/onboarding/index', 'OnboardingUserController@index')->name('onboardingindex');
+Route::get('onboarding/edit/{id}', 'OnboardingUserController@edit')->name('editonboarding');
+Route::post('/onboarding/store', 'OnboardingUserController@store');
+Route::resource('/onboarding', 'OnboardingUserController');
