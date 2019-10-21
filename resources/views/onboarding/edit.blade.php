@@ -12,12 +12,46 @@
             $("#fax_used").val('{{ $onboardinguser->fax_used }}').trigger('change');
             $("#call_queue").val('{{ $onboardinguser->call_queue }}').trigger('change');
 
-            $("#vm_2_email").prop("checked", true);
-            $("#missed_call").prop("checked", true);
-            $("#call_recording").prop("checked", true);
-            $("#has_music_onhold").prop("checked", true);
-            $("#need_fax").prop("checked", true);
-            $("#auto_attendant").prop("checked", true);
+            if ('{{ $onboardinguser->call_queue }}' == 'on') {
+                $("#vm_2_email").prop("checked", true);
+            } else {
+                $("#vm_2_email").prop("checked", false);
+            }
+
+            if ('{{ $onboardinguser->missed_call }}' == 'on') {
+                $("#missed_call").prop("checked", true);
+            } else {
+                $("#missed_call").prop("checked", false);
+            }
+
+            if ('{{ $onboardinguser->call_recording }}' == 'on') {
+                $("#call_recording").prop("checked", true);
+            } else {
+                $("#call_recording").prop("checked", false);
+            }
+
+            if ('{{ $onboardinguser->has_music_onhold }}' == 'on') {
+                $("#has_music_onhold").prop("checked", true);
+            } else {
+                $("#has_music_onhold").prop("checked", false);
+            }
+
+            if ('{{ $onboardinguser->need_fax }}' == 'on') {
+                $("#need_fax").prop("checked", true);
+            } else {
+                $("#need_fax").prop("checked", false);
+            }
+
+            if ('{{ $onboardinguser->auto_attendant }}' == 'on') {
+                $("#auto_attendant").prop("checked", true);
+            } else {
+                $("#auto_attendant").prop("checked", false);
+            }
+            // $("#missed_call").prop("checked", true);
+            // $("#call_recording").prop("checked", true);
+            // $("#has_music_onhold").prop("checked", true);
+            // $("#need_fax").prop("checked", true);
+            // $("#auto_attendant").prop("checked", true);
 
         }, 100);
 
@@ -29,7 +63,7 @@
 
         <h2 class="card-title" style="text-align: center;">{{ $onboardinguser->company_name }} - {{ $onboardinguser->username }}</h2>
         <br />
-        <form class="forms-sample" autocomplete="off" action="{{ route('onboarding.update', $onboardinguser->id) }}" method="post">
+        <form id="onboardingForm" class="forms-sample" autocomplete="off" action="{{ route('onboarding.update', $onboardinguser->id) }}" method="post">
             @method('PATCH')
             @csrf
             <input type="text" hidden class="form-control" id="company_name" name="company_name" value="{{ $onboardinguser->company_name }}" autocomplete="off">
@@ -259,8 +293,45 @@
             </div>
 
             <br />
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button id="confirmButton" class="btn btn-primary">Submit</button>
+            <script>
+                $(document).ready(function() {
+                    $("#confirmButton").click(function() {
+                        $('#confirmModal').modal('toggle');
+                    });
+                });
+            </script>
         </form>
+
+
+        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Do you confirm that all the information is accurate?</b> ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-success" href="javascript:{}" onclick="document.getElementById('onboardingForm').submit(); return false;">Confirm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
     </div>
 </div>
 

@@ -46,6 +46,7 @@ class CreateOnboardingUsersTable extends Migration
             $table->string('call_queue')->nullable();
 
             $table->string('auto_attendant')->nullable(); //boolean
+            $table->string('done')->nullable(); //boolean
 
             $table->timestamps();
         });

@@ -158,6 +158,7 @@ class OnboardingUserController extends Controller
         $onboardinguser->fax_used = request('fax_used');
         $onboardinguser->call_queue = request('call_queue');
         $onboardinguser->auto_attendant = request('auto_attendant');
+        $onboardinguser->done = 'yes';
 
         $onboardinguser->save();
 
@@ -170,8 +171,20 @@ class OnboardingUserController extends Controller
      * @param  \App\OnboardingUser  $onboardingUser
      * @return \Illuminate\Http\Response
      */
-    public function destroy(OnboardingUser $onboardingUser)
+    public function destroy($id)
     {
-        //
+        $onboardinguser = OnboardingUser::find($id);
+        $onboardinguser->delete();
+        return redirect()->back();
+    }
+
+    public function destroycompany()
+    {
+        dd('hello');
+        $company_name = Session::get('onboarding_company');
+        OnboardingUser::where('company_name', $company_name)->delete();
+        Session::remove('onboarding_company');
+
+        return view('welcome');
     }
 }

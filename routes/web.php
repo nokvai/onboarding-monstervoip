@@ -20,3 +20,6 @@ Route::get('/onboarding/index', 'OnboardingUserController@index')->name('onboard
 Route::get('onboarding/edit/{id}', 'OnboardingUserController@edit')->name('editonboarding');
 Route::post('/onboarding/store', 'OnboardingUserController@store');
 Route::resource('/onboarding', 'OnboardingUserController');
+
+
+Route::post('onboarding/delete', 'OnboardingUserController@destroy_company')->name('forget');
