@@ -52,6 +52,7 @@
     </td>
     <td>
         <select id="time_zone" class="form-control" name="time_zone">
+            <option value=""></option>
             <option value="Hawaii">Hawaii Standard Time</option>
             <option value="Alaska">Alaska Daylight Time</option>
             <option value="Pacific">Pacific Daylight Time</option>
@@ -66,6 +67,7 @@
     </td>
     <td>
         <select id="call_queue" class="form-control" name="call_queue">
+            <option value=""></option>
             <option value="Round-robin (longest idle)">Round-robin (longest idle)</option>
             <option value="Ring All">Ring All</option>
             <option value="Linear Hunt">Linear Hunt</option>
@@ -100,6 +102,7 @@
     </td>
     <td>
         <select id="music_on_hold" class="form-control" name="music_on_hold">
+            <option value=""></option>
             <option value="danza-espanola-op-37-h-142-xii-arabesca-16khz">danza-espanola-op-37-h-142-xii-arabesca-16khz</option>
             <option value="partita-no-3-in-e-major-bwv-1006-1-preludio-16khz">partita-no-3-in-e-major-bwv-1006-1-preludio-16khz</option>
             <option value="ponce-preludio-in-e-major-16khz">ponce-preludio-in-e-major-16khz</option>
@@ -108,6 +111,7 @@
     </td>
     <td>
         <select id="fax" class="form-control" name="fax">
+            <option value=""></option>
             <option value="Fax machine">Fax machine</option>
             <option value="Sending fax to email">Sending fax to email</option>
         </select>
