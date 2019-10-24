@@ -1,339 +1,163 @@
-@extends('layouts.app')
+<form id="onboardingEditForm{{$ob->id}}" class="forms-sample" autocomplete="off" action="{{ route('onboarding.update', $ob->id) }}" method="post">
+    @method('PATCH')
+    @csrf
+    <td>
+        <input type="text" hidden id="company_name" class="form-control" name="company_name" value="{{ $company_name }}" placeholder="Company Name" autocomplete="off">
+        <input type="text" id="extension" class="form-control" name="extension" value="{{ $ob->extension }}" placeholder="Extension" autocomplete="off" required>
+    </td>
+    <td>
+        <input type="email" id="email_address" class="form-control" name="email_address" value="{{ $ob->email_address }}" placeholder="Email Address" autocomplete="off" required>
+    </td>
+    <td>
+        <input type="text" id="first_name" class="form-control" name="first_name" value="{{ $ob->first_name }}" placeholder="First Name" autocomplete="off" required>
+    </td>
+    <td>
+        <input type="text" id="last_name" class="form-control" name="last_name" value="{{ $ob->last_name }}" placeholder="Last Name" autocomplete="off" required>
+    </td>
+    <td>
+        <input type="text" id="voicemail_pin" class="form-control" name="voicemail_pin" value="{{ $ob->voicemail_pin }}" placeholder="Voicemail PIN" autocomplete="off" required>
+    </td>
+    <td>
+        <input type="text" id="portal_username" class="form-control" name="portal_username" value="{{ $ob->portal_username }}" placeholder="Portal Username" autocomplete="off" required>
+    </td>
+    <td>
+        <input type="text" id="portal_password" class="form-control" name="portal_password" value="{{ $ob->portal_password }}" placeholder="Portal Password" autocomplete="off" required>
+    </td>
+    <td>
+        <input type="text" id="phone_model" class="form-control" name="phone_model" value="{{ $ob->phone_model }}" placeholder="Phone Model" autocomplete="off">
+    </td>
+    <td>
+        <input type="text" id="mac_address" class="form-control" name="mac_address" value="{{ $ob->mac_address }}" placeholder="MAC Address" autocomplete="off">
+    </td>
+    <td>
+        <input type="text" id="number_assigned" class="form-control" name="number_assigned" value="{{ $ob->number_assigned }}" placeholder="Number Assigned" autocomplete="off">
+    </td>
+    <td>
+        <input type="text" id="portal_access" class="form-control" name="portal_access" value="{{ $ob->portal_access }}" placeholder="Portal Access" autocomplete="off">
+    </td>
+    <td>
+        <input type="text" id="department" class="form-control" name="department" value="{{ $ob->department }}" placeholder="Department" autocomplete="off">
+    </td>
+    <td>
+        <input type="text" id="user_scope" class="form-control" name="user_scope" value="{{ $ob->user_scope }}" placeholder="User Scope" autocomplete="off">
+    </td>
+    <td>
+        <input type="text" id="vm_2_email" class="form-control" name="vm_2_email" value="{{ $ob->vm_2_email }}" placeholder="VM 2 Email" autocomplete="off">
+    </td>
+    <td>
+        <input type="text" id="missed_call_email" class="form-control" name="missed_call_email" value="{{ $ob->missed_call_email }}" placeholder="Missed Call Email" autocomplete="off">
+    </td>
+    <td>
+        <input type="text" id="call_recording" class="form-control" name="call_recording" value="{{ $ob->call_recording }}" placeholder="Call Recording" autocomplete="off">
+    </td>
+    <td>
+        <select id="time_zone" class="form-control" name="time_zone">
+            <option value="Hawaii">Hawaii Standard Time</option>
+            <option value="Alaska">Alaska Daylight Time</option>
+            <option value="Pacific">Pacific Daylight Time</option>
+            <option value="MountainStandard">Mountain Standard Time</option>
+            <option value="MountainDaylight">Mountain Daylight Time</option>
+            <option value="Central">Central Daylight Time</option>
+            <option value="Eastern">Eastern Daylight Time</option>
+        </select>
+    </td>
+    <td>
+        <input type="text" id="business_hours" class="form-control" name="business_hours" value="{{ $ob->business_hours }}" placeholder="Business Hours" autocomplete="off" required>
+    </td>
+    <td>
+        <select id="call_queue" class="form-control" name="call_queue">
+            <option value="Round-robin (longest idle)">Round-robin (longest idle)</option>
+            <option value="Ring All">Ring All</option>
+            <option value="Linear Hunt">Linear Hunt</option>
+            <option value="Linear Cascade">Linear Cascade</option>
+            <option value="Call Park">Call Park</option>
+        </select>
+        <small id="call_queueHelp" class="form-text text-muted"></small>
+        <script>
+            $(document).ready(function() {
+                $("#call_queue").change(function() {
+                    var v = $("#call_queue").val();
+                    if (v == "Round-robin (longest idle)") {
+                        $("#call_queueHelp").text('this type of queue routes callers to the available agent that has been idle longest.');
+                    } else if (v == "Ring All") {
+                        $("#call_queueHelp").text('this type of queue routes callers to all available agents at the same time.');
 
-@section('content')
+                    } else if (v == "Linear Hunt") {
+                        $("#call_queueHelp").text("this type of queue routes callers to the available agents in a predefined order. The order is defined when editing the queue's agents.");
 
-<script>
-    $(document).ready(function() {
+                    } else if (v == "Linear Cascade") {
+                        $("#call_queueHelp").text("this type of queue routes callers to groups of available agents in a predefined order. The order is defined when editing the queue's agents.");
 
-        setTimeout(function() {
-            $("#portal_access").val('{{ $onboardinguser->portal_access }}').trigger('change');
-            $("#music").val('{{ $onboardinguser->music }}').trigger('change');
-            $("#time_zone").val('{{ $onboardinguser->time_zone }}').trigger('change');
-            $("#fax_used").val('{{ $onboardinguser->fax_used }}').trigger('change');
-            $("#call_queue").val('{{ $onboardinguser->call_queue }}').trigger('change');
-
-            if ('{{ $onboardinguser->call_queue }}' == 'on') {
-                $("#vm_2_email").prop("checked", true);
-            } else {
-                $("#vm_2_email").prop("checked", false);
-            }
-
-            if ('{{ $onboardinguser->missed_call }}' == 'on') {
-                $("#missed_call").prop("checked", true);
-            } else {
-                $("#missed_call").prop("checked", false);
-            }
-
-            if ('{{ $onboardinguser->call_recording }}' == 'on') {
-                $("#call_recording").prop("checked", true);
-            } else {
-                $("#call_recording").prop("checked", false);
-            }
-
-            if ('{{ $onboardinguser->has_music_onhold }}' == 'on') {
-                $("#has_music_onhold").prop("checked", true);
-            } else {
-                $("#has_music_onhold").prop("checked", false);
-            }
-
-            if ('{{ $onboardinguser->need_fax }}' == 'on') {
-                $("#need_fax").prop("checked", true);
-            } else {
-                $("#need_fax").prop("checked", false);
-            }
-
-            if ('{{ $onboardinguser->auto_attendant }}' == 'on') {
-                $("#auto_attendant").prop("checked", true);
-            } else {
-                $("#auto_attendant").prop("checked", false);
-            }
-            // $("#missed_call").prop("checked", true);
-            // $("#call_recording").prop("checked", true);
-            // $("#has_music_onhold").prop("checked", true);
-            // $("#need_fax").prop("checked", true);
-            // $("#auto_attendant").prop("checked", true);
-
-        }, 100);
-
-    });
-</script>
-
-<div class="card">
-    <div class="card-body" style="margin-left: 15%; margin-right: 15%;">
-
-        <h2 class="card-title" style="text-align: center;">{{ $onboardinguser->company_name }} - {{ $onboardinguser->username }}</h2>
-        <br />
-        <form id="onboardingForm" class="forms-sample" autocomplete="off" action="{{ route('onboarding.update', $onboardinguser->id) }}" method="post">
-            @method('PATCH')
-            @csrf
-            <input type="text" hidden class="form-control" id="company_name" name="company_name" value="{{ $onboardinguser->company_name }}" autocomplete="off">
-            <input type="text" hidden class="form-control" id="username" name="username" value="{{ $onboardinguser->username }}" autocomplete="off">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="extension_no">Extension No.</label>
-                        <input type="text" class="form-control" id="extension_no" name="extension_no" value="{{ $onboardinguser->extension_no }}" placeholder="Extension Number" autocomplete="off" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" class="form-control" id="email" name="email" value="{{ $onboardinguser->email }}" placeholder="Email Address" autocomplete="off" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="first_name">First Name</label>
-                        <input type="text" class="form-control" id="first_name" name="first_name" value="{{ $onboardinguser->first_name }}" placeholder="First Name" autocomplete="off" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="last_name">Last Name</label>
-                        <input type="text" class="form-control" id="last_name" name="last_name" value="{{ $onboardinguser->last_name }}" placeholder="Last Name" autocomplete="off" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="voicemail_pin">Voicemail PIN</label>
-                        <input type="text" class="form-control" id="voicemail_pin" name="voicemail_pin" value="{{ $onboardinguser->voicemail_pin }}" placeholder="Voicemail PIN" autocomplete="off" required>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="portal_username">Portal Username</label>
-                        <input type="text" class="form-control" id="portal_username" name="portal_username" value="{{ $onboardinguser->portal_username }}" aria-describedby="portal_usernameHelp" placeholder="Portal Username" autocomplete="off" required>
-                        <small id="portal_usernameHelp" class="form-text text-muted">Format: ext@domain | e.g. 101@MonsterVoIP</small>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="portal_password ">Portal Password</label>
-                        <input type="text" class="form-control" id="portal_password" name="portal_password" value="{{ $onboardinguser->portal_password }}" placeholder="Portal Password" autocomplete="off" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="phone_model ">Phone Model</label>
-                        <input type="text" class="form-control" id="phone_model" name="phone_model" value="{{ $onboardinguser->phone_model }}" aria-describedby="phone_modelHelp" placeholder="Phone Model" autocomplete="off" required>
-                        <small id="phone_modelHelp" class="form-text text-muted">Only for BYOD</small>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="mac_address ">MAC Address</label>
-                        <input type="text" class="form-control" id="mac_address" name="mac_address" value="{{ $onboardinguser->mac_address }}" aria-describedby="mac_addressHelp" placeholder="MAC Address" autocomplete="off" required>
-                        <small id="mac_addressHelp" class="form-text text-muted">Only for BYOD</small>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-md-6">
-                    <h4>Optional Fields</h4>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="number_assigned">Number Assigned</label>
-                        <input type="text" class="form-control" id="number_assigned" name="number_assigned" value="{{ $onboardinguser->number_assigned }}" aria-describedby="number_assignedHelp" placeholder="Number Assigned" autocomplete="off">
-                        <small id="number_assignedHelp" class="form-text text-muted">applies on ported numbers - which number goes to which person</small>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="department">Department</label>
-                        <input type="text" class="form-control" id="department" name="department" value="{{ $onboardinguser->department }}" aria-describedby="departmentHelp" placeholder="Department" autocomplete="off">
-                        <small id="departmentHelp" class="form-text text-muted">for different user to department designation</small>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="portal_access">Portal Access</label>
-                        <!-- <input type="portal_access" class="form-control" id="portal_access" aria-describedby="portal_accessHelp" placeholder="Portal Access"> -->
-                        <select id="portal_access" class="form-control" name="portal_access">
-                            <option value="Basic">Basic</option>
-                            <option value="Manager">Manager</option>
-                        </select>
-                        <small id="portal_accessHelp" class="form-text text-muted">what kind of access grant a user has Basic or Manager</small>
-                    </div>
-                </div>
-
-            </div>
-
-
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="vm_2_email" name="vm_2_email">
-                        <label class="form-check-label" for="vm_2_email">VM 2 email</label>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="missed_call" name="missed_call">
-                        <label class="form-check-label" for="missed_call">Missed Call Email Notification</label>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="call_recording" name="call_recording">
-                        <label class="form-check-label" for="call_recording">Call Recording</label>
-                    </div>
-                </div>
-            </div>
-
-            <br />
-            <div class="row">
-                <div class="col-md-6">
-                    <h4>Things to remember:</h4>
-                </div>
-            </div>
-
-
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="has_music_onhold" name="has_music_onhold">
-                        <label class="form-check-label" for="has_music_onhold">Do they have their own Music on hold?</label>
-                    </div>
-                    <div class="form-group">
-                        <small for="music">If No, we have 4 available for them:</small>
-                        <!-- <input type="portal_access" class="form-control" id="portal_access" aria-describedby="portal_accessHelp" placeholder="Portal Access"> -->
-                        <select id="music" class="form-control" name="music">
-                            <option value="danza">danza-espanola-op-37-h-142-xii-arabesca-16khz</option>
-                            <option value="partita">partita-no-3-in-e-major-bwv-1006-1-preludio-16khz</option>
-                            <option value="ponce">ponce-preludio-in-e-major-16khz</option>
-                            <option value="suite">suite-espanola-op-47-leyenda-16khz</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="client_business_after_hours">What are the clients business and after hours?</label>
-                        <input type="text" class="form-control" id="client_business_after_hours" name="client_business_after_hours" value="{{ $onboardinguser->client_business_after_hours }}" placeholder="" autocomplete="off">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="time_zone">What is your time zone?</label>
-                        <select id="time_zone" class="form-control" name="time_zone">
-                            <option value="Hawaii">Hawaii Standard Time</option>
-                            <option value="Alaska">Alaska Daylight Time</option>
-                            <option value="Pacific">Pacific Daylight Time</option>
-                            <option value="MountainStandard">Mountain Standard Time</option>
-                            <option value="MountainDaylight">Mountain Daylight Time</option>
-                            <option value="Central">Central Daylight Time</option>
-                            <option value="Eastern">Eastern Daylight Time</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="need_fax" name="need_fax">
-                        <label class="form-check-label" for="need_fax">Need to Fax?</label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <small for="fax_used">If No, we have 2 options:</small>
-                        <select id="fax_used" class="form-control" name="fax_used">
-                            <option value="Fax machine">Fax machine</option>
-                            <option value="Sending fax to email">Sending fax to email</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="call_queue">Call Queue</label>
-                        <select id="call_queue" class="form-control" name="call_queue">
-                            <option value="Round-robin (longest idle)">Round-robin (longest idle)</option>
-                            <option value="Ring All">Ring All</option>
-                            <option value="Linear Hunt">Linear Hunt</option>
-                            <option value="Linear Cascade">Linear Cascade</option>
-                            <option value="Call Park">Call Park</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="auto_attendant" name="auto_attendant">
-                        <label class="form-check-label" for="auto_attendant">Do they have an auto attendant?</label>
-                    </div>
-                </div>
-            </div>
-
-            <br />
-            <button id="confirmButton" class="btn btn-primary">Submit</button>
-            <script>
-                $(document).ready(function() {
-                    $("#confirmButton").click(function() {
-                        $('#confirmModal').modal('toggle');
-                    });
+                    } else if (v == "Call Park") {
+                        $("#call_queueHelp").text('this feature places the caller on hold until an agent retrieves them. It is not used for ACD functionality.');
+                    }
                 });
-            </script>
-        </form>
+            });
+        </script>
+    </td>
+    <td>
+        <input type="checkbox" id="has_music_on_hold" class="form-control" name="has_music_on_hold" value="{{ $ob->has_music_on_hold }}">
+    </td>
+    <td>
+        <select id="music_on_hold" class="form-control" name="music_on_hold">
+            <option value="danza-espanola-op-37-h-142-xii-arabesca-16khz">danza-espanola-op-37-h-142-xii-arabesca-16khz</option>
+            <option value="partita-no-3-in-e-major-bwv-1006-1-preludio-16khz">partita-no-3-in-e-major-bwv-1006-1-preludio-16khz</option>
+            <option value="ponce-preludio-in-e-major-16khz">ponce-preludio-in-e-major-16khz</option>
+            <option value="suite-espanola-op-47-leyenda-16khz">suite-espanola-op-47-leyenda-16khz</option>
+        </select>
+    </td>
+    <td>
+        <select id="fax" class="form-control" name="fax">
+            <option value="Fax machine">Fax machine</option>
+            <option value="Sending fax to email">Sending fax to email</option>
+        </select>
+    </td>
+    <td>
+        <input type="checkbox" id="auto_attendant" class="form-control" name="auto_attendant" value="{{ $ob->auto_attendant }}">
+    </td>
 
+    <td>
+        <button id="confirmButton{{$ob->id}}" class="btn btn-primary">Update</button>
+        <script>
+            $(document).ready(function() {
+                $("#confirmButton{{$ob->id}}").click(function(e) {
+                    e.preventDefault();
+                    $('#confirmModal{{$ob->id}}').modal('toggle');
+                });
+            });
+        </script>
+    </td>
+    <td>
+        <button id="CancelButton{{$ob->id}}" class="btn btn-primary">Cancel</button>
+        <script>
+            $(document).ready(function() {
+                $("#CancelButton{{$ob->id}}").click(function(e) {
+                    e.preventDefault();
+                    // $('#confirmModal{{$ob->id}}').modal('toggle');
+                    $('#tr{{$ob->id}}').show();
+                    $('#tr-edit{{$ob->id}}').hide();
+                });
+            });
+        </script>
+    </td>
+</form>
 
-        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Confirmation</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Do you confirm that all the information is accurate?</b> ?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-success" href="javascript:{}" onclick="document.getElementById('onboardingForm').submit(); return false;">Confirm</a>
-                    </div>
-                </div>
+<div class="modal fade" id="confirmModal{{$ob->id}}" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you confirm that all the information is accurate?</b> ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-success" href="javascript:{}" onclick="document.getElementById('onboardingEditForm{{$ob->id}}').submit(); return false;">Confirm Update</a>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
     </div>
 </div>
-
-
-@endsection

@@ -5,8 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Unified Onboarding</title>
+    <title>Monster VoIP Onboarding</title>
 
+    <link rel="shortcut icon" href="mv-ob-icon.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -48,12 +49,15 @@
     <div>
         <br />
         <br />
-        <br />
-        <br />
-        <br />
+
         <div>
             <a id="intro" hidden href="{{ route('onboardingindex') }}"></a>
         </div>
+
+        <div class="text-center;" style="display: flex; align-items: center; justify-content: center; ">
+            <img style=" width: 350px; height: 180px;" src="/images/final_mv-keep-on-boarding-large-image.png">
+        </div>
+        <br />
 
         <div>
             <p style="text-align: center; color: #000; font-size: 18px; font-weight: 800;"><b>You’ve made the right decision!<br /><br />

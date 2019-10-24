@@ -14,15 +14,20 @@ class OnboardingUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($company_name)
     {
-        $company_name = Session::get('onboarding_company');
-        //dd($company_name);
+        // dd($company_name);
+        if ($company_name == "All Onboarding") {
+            $onboardinguser = OnboardingUser::all();
+            return view('onboarding.index', compact(['onboardinguser', 'company_name']));
+        } else {
+            $onboardinguser = OnboardingUser::where('company_name', $company_name)->get();
+            return view('onboarding.index', compact(['onboardinguser', 'company_name']));
+        }
+        //$company_name = Session::get('onboarding_company');
+        // $onboardinguser = OnboardingUser::where('company_name', $company_name)->orderBy('created_at', 'desc')->get();
 
-        $onboadinguser = OnboardingUser::where('company_name', $company_name)->orderBy('created_at', 'desc')->get();
-        // dd($onboading);
-
-        return view('onboarding.index', compact('onboadinguser'));
+        // dd($onboardinguser);
     }
 
     /**
@@ -41,23 +46,54 @@ class OnboardingUserController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $request->validate([
             'company_name' => 'required',
-            'number_of_user' => 'required',
         ]);
 
-        Session::put('onboarding_company', request('company_name'));
+        $onboardinguser = new OnboardingUser();
+        $onboardinguser->company_name = request('company_name');
+        $onboardinguser->extension = request('extension');
+        $onboardinguser->email_address = request('email_address');
+        $onboardinguser->first_name = request('first_name');
+        $onboardinguser->last_name = request('last_name');
+        $onboardinguser->voicemail_pin = request('voicemail_pin');
+        $onboardinguser->portal_username = request('portal_username');
+        $onboardinguser->portal_password = request('portal_password');
+        $onboardinguser->phone_model = request('phone_model');
+        $onboardinguser->mac_address = request('mac_address');
+        $onboardinguser->number_assigned = request('number_assigned');
+        $onboardinguser->department = request('department');
+        $onboardinguser->portal_access = request('portal_access');
+        $onboardinguser->user_scope = request('user_scope');
+        $onboardinguser->vm_2_email = request('vm_2_email');
+        $onboardinguser->missed_call_email = request('missed_call_email');
+        $onboardinguser->call_recording = request('call_recording');
 
-        $num = (int) request('number_of_user');
-        // dd($num);
-        for ($i = 1; $i <= $num; $i++) {
-            $company = new OnboardingUser();
-            $company->company_name = request('company_name');
-            $company->username = 'User ' . $i;
-            $company->save();
+        $onboardinguser->time_zone = request('time_zone');
+        $onboardinguser->business_hours = request('business_hours');
+        $onboardinguser->call_queue = request('call_queue');
+        if (request('has_music_on_hold') == 'on') {
+            $onboardinguser->has_music_on_hold = "Yes";
+        } else {
+            $onboardinguser->has_music_on_hold = "No";
         }
 
-        return redirect('/onboarding/index');
+        if ($onboardinguser->has_music_on_hold == 'Yes') {
+            $onboardinguser->music_on_hold = null;
+        } else {
+            $onboardinguser->music_on_hold = request('music_on_hold');
+        }
+        $onboardinguser->fax = request('fax');
+        if (request('auto_attendant') == 'on') {
+            $onboardinguser->auto_attendant = "Yes";
+        } else {
+            $onboardinguser->auto_attendant = "No";
+        }
+
+        $onboardinguser->save();
+
+        return redirect('/onboarding/index/' . request('company_name'));
     }
 
     /**
@@ -84,6 +120,13 @@ class OnboardingUserController extends Controller
         return view('onboarding.edit', compact(['onboardinguser']));
     }
 
+    public function edit2(OnboardingUser $onboardingUser, $id)
+    {
+        $onboardinguser = OnboardingUser::find($id);
+
+        return $onboardinguser;
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -93,50 +136,14 @@ class OnboardingUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        // $request->validate([
-        //     'company_name' => 'required',
-        // ]);
-
-
-
-        // $table->string('company_name');
-        // $table->string('username');
-        // $table->string('extension_no')->nullable();
-        // $table->string('email')->nullable();
-        // $table->string('first_name')->nullable();
-        // $table->string('last_name')->nullable();
-        // $table->string('voicemail_pin')->nullable();
-        // $table->string('portal_username')->nullable();
-        // $table->string('portal_password')->nullable();
-        // $table->string('phone_model')->nullable();
-        // $table->string('mac_address')->nullable();
-        // $table->string('number_assigned')->nullable();
-        // $table->string('department')->nullable();
-        // $table->string('portal_access')->nullable();
-
-        // $table->boolean('vm_2_email')->nullable();
-        // $table->boolean('missed_call')->nullable();
-        // $table->boolean('call_recording')->nullable();
-        // $table->boolean('has_music_onhold')->nullable();
-
-        // $table->string('music')->nullable();
-        // $table->string('client_business_after_hours')->nullable();
-        // $table->string('time_zone')->nullable();
-
-
-        // $table->boolean('need_fax')->nullable();
-
-        // $table->string('fax_used')->nullable();
-        // $table->string('call_queue')->nullable();
-
-        // $table->boolean('auto_attendant')->nullable();
+        $request->validate([
+            'company_name' => 'required',
+        ]);
 
         $onboardinguser = OnboardingUser::find($id);
         $onboardinguser->company_name = request('company_name');
-        $onboardinguser->username = request('username');
-        $onboardinguser->extension_no = request('extension_no');
-        $onboardinguser->email = request('email');
+        $onboardinguser->extension = request('extension');
+        $onboardinguser->email_address = request('email_address');
         $onboardinguser->first_name = request('first_name');
         $onboardinguser->last_name = request('last_name');
         $onboardinguser->voicemail_pin = request('voicemail_pin');
@@ -147,22 +154,36 @@ class OnboardingUserController extends Controller
         $onboardinguser->number_assigned = request('number_assigned');
         $onboardinguser->department = request('department');
         $onboardinguser->portal_access = request('portal_access');
+        $onboardinguser->user_scope = request('user_scope');
         $onboardinguser->vm_2_email = request('vm_2_email');
-        $onboardinguser->missed_call = request('missed_call');
+        $onboardinguser->missed_call_email = request('missed_call_email');
         $onboardinguser->call_recording = request('call_recording');
-        $onboardinguser->has_music_onhold = request('has_music_onhold');
-        $onboardinguser->music = request('music');
-        $onboardinguser->client_business_after_hours = request('client_business_after_hours');
+
         $onboardinguser->time_zone = request('time_zone');
-        $onboardinguser->need_fax = request('need_fax');
-        $onboardinguser->fax_used = request('fax_used');
+        $onboardinguser->business_hours = request('business_hours');
         $onboardinguser->call_queue = request('call_queue');
-        $onboardinguser->auto_attendant = request('auto_attendant');
-        $onboardinguser->done = 'yes';
+        if (request('has_music_on_hold') == 'on') {
+            $onboardinguser->has_music_on_hold = "Yes";
+        } else {
+            $onboardinguser->has_music_on_hold = "No";
+        }
+
+        if ($onboardinguser->has_music_on_hold == 'Yes') {
+            $onboardinguser->music_on_hold = null;
+        } else {
+            $onboardinguser->music_on_hold = request('music_on_hold');
+        }
+        $onboardinguser->fax = request('fax');
+        if (request('auto_attendant') == 'on') {
+            $onboardinguser->auto_attendant = "Yes";
+        } else {
+            $onboardinguser->auto_attendant = "No";
+        }
+
 
         $onboardinguser->save();
 
-        return redirect('/onboarding/index');
+        return redirect('/onboarding/index/' . request('company_name'));
     }
 
     /**
@@ -180,11 +201,12 @@ class OnboardingUserController extends Controller
 
     public function destroycompany()
     {
-        dd('hello');
+        //dd($id);
         $company_name = Session::get('onboarding_company');
+        dd($company_name);
         OnboardingUser::where('company_name', $company_name)->delete();
         Session::remove('onboarding_company');
 
-        return view('welcome');
+        return redirect()->back();
     }
 }
