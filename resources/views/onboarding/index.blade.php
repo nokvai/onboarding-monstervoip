@@ -57,6 +57,9 @@
                 <table id="onboadingtable" class="table table-bordered table-hover">
                     <thead style="background-color: #E65325;">
                         <tr>
+                            @if($company_name == 'All Onboarding')
+                            <td class="onboard-col-w">Company Name</td>
+                            @endif
                             <td class="onboard-col-w">Extension</td>
                             <td class="onboard-col-w">Email Address</td>
                             <td class="onboard-col-w">First Name</td>
@@ -87,6 +90,9 @@
                     <tbody>
                         @foreach($onboardinguser as $ob)
                         <tr id="tr{{$ob->id}}" style="cursor: pointer;">
+                            @if($company_name == 'All Onboarding')
+                            <td>{{$ob->company_name}}</td>
+                            @endif
                             <td>{{ $ob->extension }}</td>
                             <td>{{ $ob->email_address }}</td>
                             <td>{{ $ob->first_name }}</td>
