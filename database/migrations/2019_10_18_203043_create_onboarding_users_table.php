@@ -36,6 +36,7 @@ class CreateOnboardingUsersTable extends Migration
             $table->string('business_hours')->nullable();
             $table->string('call_queue')->nullable();
             $table->string('has_music_on_hold')->nullable();
+            $table->string('has_recording')->nullable();
             $table->string('music_on_hold')->nullable();
             $table->string('fax')->nullable();
             $table->string('auto_attendant')->nullable();

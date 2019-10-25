@@ -44,16 +44,93 @@
             <input type="text" id="department" class="form-control" name="department" placeholder="Department" autocomplete="off">
         </td>
         <td>
-            <input type="text" id="user_scope" class="form-control" name="user_scope" placeholder="User Scope" autocomplete="off">
+            <select id="user_scope" class="form-control" name="user_scope">
+                <option value=""></option>
+                <option value="Basic">Basic</option>
+                <option value="Manager">Manager</option>
+            </select>
+            <small id="user_scopeHelp" class="form-text text-muted">
+                Please choose from the dropdown.
+            </small>
+            <script>
+                $(document).ready(function() {
+                    $("#user_scope").change(function() {
+                        var v = $("#user_scope").val();
+                        if (v == "") {
+                            $("#user_scopeHelp").text('Please choose from the dropdown.');
+                        } else {
+                            $("#user_scopeHelp").text('');
+                        }
+                    });
+                });
+            </script>
         </td>
         <td>
-            <input type="text" id="vm_2_email" class="form-control" name="vm_2_email" placeholder="VM 2 Email" autocomplete="off">
+            <select id="vm_2_email" class="form-control" name="vm_2_email">
+                <option value=""></option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+
+            </select>
+            <small id="vm_2_emailHelp" class="form-text text-muted">
+                Please choose from the dropdown.
+            </small>
+            <script>
+                $(document).ready(function() {
+                    $("#vm_2_email").change(function() {
+                        var v = $("#vm_2_email").val();
+                        if (v == "") {
+                            $("#vm_2_emailHelp").text('Please choose from the dropdown.');
+                        } else {
+                            $("#vm_2_emailHelp").text('');
+                        }
+                    });
+                });
+            </script>
         </td>
         <td>
-            <input type="text" id="missed_call_email" class="form-control" name="missed_call_email" placeholder="Missed Call Email" autocomplete="off">
+            <select id="missed_call_email" class="form-control" name="missed_call_email">
+                <option value=""></option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+            <small id="missed_call_emailHelp" class="form-text text-muted">
+                Please choose from the dropdown.
+            </small>
+            <script>
+                $(document).ready(function() {
+                    $("#missed_call_email").change(function() {
+                        var v = $("#missed_call_email").val();
+                        if (v == "") {
+                            $("#missed_call_emailHelp").text('Please choose from the dropdown.');
+                        } else {
+                            $("#missed_call_emailHelp").text('');
+                        }
+                    });
+                });
+            </script>
         </td>
         <td>
-            <input type="text" id="call_recording" class="form-control" name="call_recording" placeholder="Call Recording" autocomplete="off">
+            <select id="call_recording" class="form-control" name="call_recording">
+                <option value=""></option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+            <small id="call_recordingHelp" class="form-text text-muted">
+                Please choose from the dropdown.
+            </small>
+            <script>
+                $(document).ready(function() {
+                    $("#call_recording").change(function() {
+                        var v = $("#call_recording").val();
+                        if (v == "") {
+                            $("#call_recordingHelp").text('Please choose from the dropdown.');
+                        } else {
+                            $("#call_recordingHelp").text('');
+                        }
+                    });
+                });
+            </script>
         </td>
         <td>
             <select id="time_zone" class="form-control" name="time_zone">
@@ -102,7 +179,7 @@
                     $("#call_queue").change(function() {
                         var v = $("#call_queue").val();
                         if (v == "Round-robin") {
-                            $("#call_queueHelp").text('(longest idle) - This type of queue routes callers to the available agent that has been idle longest.');
+                            $("#call_queueHelp").text('(Longest idle) - This type of queue routes callers to the available agent that has been idle longest.');
                         } else if (v == "Ring All") {
                             $("#call_queueHelp").text('This type of queue routes callers to all available agents at the same time.');
                         } else if (v == "Linear Hunt") {
@@ -112,7 +189,7 @@
                         } else if (v == "Call Park") {
                             $("#call_queueHelp").text('This feature places the caller on hold until an agent retrieves them. It is not used for ACD functionality.');
                         } else if (v == "") {
-                            $("#call_queueHelp").text(' Please choose from the dropdown.');
+                            $("#call_queueHelp").text('Please choose from the dropdown.');
                         }
                     });
                 });
@@ -133,12 +210,58 @@
                         var v = $("#has_music_on_hold").val();
                         if (v == "") {
                             $("#has_music_on_holdHelp").text('Please choose from the dropdown.');
-                        } else {
+
+                            $("#has-recording-title").hide();
+                            $("#has_recording").hide();
+                            $("#has_recordingHelp").hide();
+                        } else if (v == 'Yes') {
                             $("#has_music_on_holdHelp").text('');
+
+                            $("#has-recording-title").hide();
+                            $("#has_recording").hide();
+                            $("#has_recordingHelp").hide();
+                        } else if (v == 'No') {
+                            $("#has_music_on_holdHelp").text('');
+
+                            $("#has-recording-title").show();
+                            $("#has_recording").show();
+                            $("#has_recordingHelp").show();
                         }
                     });
                 });
             </script>
+
+            <br />
+            <b id="has-recording-title">Already have recording?</b>
+            <select id="has_recording" class="form-control" name="has_recording">
+                <option value=""></option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+            <small id="has_recordingHelp" class="form-text text-muted">
+                Please choose from the dropdown.
+            </small>
+            <script>
+                $(document).ready(function() {
+                    $("#has_recording").change(function() {
+                        var v = $("#has_recording").val();
+                        if (v == "") {
+                            $("#has_recordingHelp").text('Please choose from the dropdown.');
+                            $("#music_on_hold").hide();
+                            $("#music_on_holdHelp").hide();
+                        } else if (v == 'Yes') {
+                            $("#has_recordingHelp").text('');
+                            $("#music_on_hold").hide();
+                            $("#music_on_holdHelp").hide();
+                        } else if (v == 'No') {
+                            $("#has_recordingHelp").text('');
+                            $("#music_on_hold").show();
+                            $("#music_on_holdHelp").show();
+                        }
+                    });
+                });
+            </script>
+
         </td>
         <td>
             <select id="music_on_hold" class="form-control" name="music_on_hold">
@@ -170,7 +293,7 @@
                     $("#fax").change(function() {
                         var v = $("#fax").val();
                         if (v == "Fax machine") {
-                            $("#faxHelp").text('');
+                            $("#faxHelp").text('Standard Fax Machine.');
                         } else if (v == "Sending fax to email") {
                             $("#faxHelp").text('Through PDF and can be printed out.');
                         } else if (v == "") {
@@ -242,3 +365,14 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+
+        $("#has-recording-title").hide();
+        $("#has_recording").hide();
+        $("#has_recordingHelp").hide();
+        $("#music_on_hold").hide();
+        $("#music_on_holdHelp").hide();
+    });
+</script>

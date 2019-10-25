@@ -86,7 +86,7 @@
                             <td class="onboard-col-w">Time Zone</td>
                             <td class="onboard-col-w">Business Hours</td>
                             <td class="onboard-col-w">Call Queue</td>
-                            <td class="onboard-col-w2">Has Music On Hold</td>
+                            <td class="onboard-col-w2">Already have Music On Hold?</td>
                             <td class="onboard-col-w4">Music On Hold</td>
                             <td class="onboard-col-w">Fax</td>
                             <td class="onboard-col-w2">Using an Auto Attendant</td>
@@ -136,14 +136,22 @@
                                         $.get("/onboarding/edit2/" + id, function(data) {
 
                                             setTimeout(function() {
+                                                // time_zone
+                                                // call_queue
+                                                // has_music_on_hold
+                                                // has_recording
 
+                                                // music_on_hold
+                                                // fax
+                                                // auto_attendant
                                                 $("select#time_zone").val(data.time_zone).trigger('change');
                                                 $("select#call_queue").val(data.call_queue).trigger('change');
+                                                $("select#has_music_on_hold").val(data.has_music_on_hold).trigger('change');
+                                                $("select#has_recording").val(data.has_recording).trigger('change');
+
                                                 $("select#music_on_hold").val(data.music_on_hold).trigger('change');
                                                 $("select#fax").val(data.fax).trigger('change');
-
-                                                $("select#has_music_on_hold").val(data.has_music_on_hold).trigger('change');
-                                                $("select#music_on_hold").val(data.music_on_hold).trigger('change');
+                                                $("select#auto_attendant").val(data.auto_attendant).trigger('change');
 
                                             }, 100);
                                         });

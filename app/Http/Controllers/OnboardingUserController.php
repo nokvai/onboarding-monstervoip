@@ -72,17 +72,21 @@ class OnboardingUserController extends Controller
         $onboardinguser->time_zone = request('time_zone');
         $onboardinguser->business_hours = request('business_hours');
         $onboardinguser->call_queue = request('call_queue');
-        if (request('has_music_on_hold') == 'on') {
-            $onboardinguser->has_music_on_hold = "Yes";
-        } else {
-            $onboardinguser->has_music_on_hold = "No";
-        }
+
+        $onboardinguser->has_music_on_hold = request('has_music_on_hold');
 
         if ($onboardinguser->has_music_on_hold == 'Yes') {
+            $onboardinguser->has_recording = null;
+        } else {
+            $onboardinguser->has_recording = request('has_recording');
+        }
+
+        if ($onboardinguser->has_recording == 'Yes') {
             $onboardinguser->music_on_hold = null;
         } else {
             $onboardinguser->music_on_hold = request('music_on_hold');
         }
+
         $onboardinguser->fax = request('fax');
         if (request('auto_attendant') == 'on') {
             $onboardinguser->auto_attendant = "Yes";
@@ -93,7 +97,7 @@ class OnboardingUserController extends Controller
         if ($onboardinguser->auto_attendant == "Yes") {
             $onboardinguser->script = null;
         } else {
-            $onboardinguser->script = request('music_on_hold');
+            $onboardinguser->script = request('script');
         }
 
         $onboardinguser->save();
@@ -166,17 +170,21 @@ class OnboardingUserController extends Controller
         $onboardinguser->time_zone = request('time_zone');
         $onboardinguser->business_hours = request('business_hours');
         $onboardinguser->call_queue = request('call_queue');
-        if (request('has_music_on_hold') == 'on') {
-            $onboardinguser->has_music_on_hold = "Yes";
-        } else {
-            $onboardinguser->has_music_on_hold = "No";
-        }
+
+        $onboardinguser->has_music_on_hold = request('has_music_on_hold');
 
         if ($onboardinguser->has_music_on_hold == 'Yes') {
+            $onboardinguser->has_recording = null;
+        } else {
+            $onboardinguser->has_recording = request('has_recording');
+        }
+
+        if ($onboardinguser->has_recording == 'Yes') {
             $onboardinguser->music_on_hold = null;
         } else {
             $onboardinguser->music_on_hold = request('music_on_hold');
         }
+
         $onboardinguser->fax = request('fax');
         if (request('auto_attendant') == 'on') {
             $onboardinguser->auto_attendant = "Yes";
@@ -187,7 +195,7 @@ class OnboardingUserController extends Controller
         if ($onboardinguser->auto_attendant == "Yes") {
             $onboardinguser->script = null;
         } else {
-            $onboardinguser->script = request('music_on_hold');
+            $onboardinguser->script = request('script');
         }
 
         $onboardinguser->save();
