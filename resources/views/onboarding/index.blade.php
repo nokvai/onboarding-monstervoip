@@ -12,6 +12,16 @@
         min-width: 400px;
         font-weight: bold;
     }
+
+    .onboard-col-w3 {
+        min-width: 600px;
+        font-weight: bold;
+    }
+
+    .onboard-col-w4 {
+        min-width: 800px;
+        font-weight: bold;
+    }
 </style>
 
 <script>
@@ -79,10 +89,11 @@
                             <td class="onboard-col-w">Time Zone</td>
                             <td class="onboard-col-w">Business Hours</td>
                             <td class="onboard-col-w">Call Queue</td>
-                            <td class="onboard-col-w">Has Music On Hold</td>
-                            <td class="onboard-col-w2">Music On Hold</td>
+                            <td class="onboard-col-w4">Has Music On Hold</td>
+                            <td class="onboard-col-w">Music On Hold</td>
                             <td class="onboard-col-w">Fax</td>
-                            <td class="onboard-col-w">Using an Auto Attendant</td>
+                            <td class="onboard-col-w3">Using an Auto Attendant</td>
+                            <td class="onboard-col-w2">Audio Script</td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -116,6 +127,7 @@
                             <td>{{ $ob->music_on_hold }}</td>
                             <td>{{ $ob->fax }}</td>
                             <td>{{ $ob->auto_attendant }}</td>
+                            <td>{{ $ob->script }}</td>
                             <td>
                                 <a href="javascript:{}" onclick="edit({{ $ob->id }}); return false;">Edit</a>
                                 <script>
@@ -126,14 +138,32 @@
                                         $('#tr-edit' + id).show('slow');
 
                                         $.get("/onboarding/edit2/" + id, function(data) {
+
                                             setTimeout(function() {
-                                                // console.log(data);
-                                                //alert('{{$ob->time_zone}} | {{$ob->call_queue}} | {{$ob->music_on_hold}}');
+
                                                 $("select#time_zone").val(data.time_zone).trigger('change');
                                                 $("select#call_queue").val(data.call_queue).trigger('change');
                                                 $("select#music_on_hold").val(data.music_on_hold).trigger('change');
                                                 $("select#fax").val(data.fax).trigger('change');
-                                            }, 10);
+
+                                                if (data.has_music_on_hold == 'Yes') {
+                                                    $("input#has_music_on_hold").attr('checked', 'checked');
+
+                                                } else {
+                                                    $("input#has_music_on_hold").removeAttr('checked');
+
+                                                }
+                                                $("input#has_music_on_hold").trigger('change');
+
+                                                if (data.auto_attendant == 'Yes') {
+                                                    $("input#auto_attendant").attr('checked', 'checked');
+                                                } else {
+                                                    $("input#auto_attendant").removeAttr('checked');
+                                                }
+
+                                                $("input#auto_attendant").trigger('change');
+
+                                            }, 100);
                                         });
 
                                     }

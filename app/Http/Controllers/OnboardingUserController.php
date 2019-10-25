@@ -91,6 +91,12 @@ class OnboardingUserController extends Controller
             $onboardinguser->auto_attendant = "No";
         }
 
+        if ($onboardinguser->auto_attendant == "Yes") {
+            $onboardinguser->script = null;
+        } else {
+            $onboardinguser->script = request('music_on_hold');
+        }
+
         $onboardinguser->save();
 
         return redirect('/onboarding/index/' . request('company_name'));
@@ -180,6 +186,11 @@ class OnboardingUserController extends Controller
             $onboardinguser->auto_attendant = "No";
         }
 
+        if ($onboardinguser->auto_attendant == "Yes") {
+            $onboardinguser->script = null;
+        } else {
+            $onboardinguser->script = request('music_on_hold');
+        }
 
         $onboardinguser->save();
 

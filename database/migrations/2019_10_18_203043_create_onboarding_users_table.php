@@ -40,6 +40,8 @@ class CreateOnboardingUsersTable extends Migration
             $table->string('music_on_hold')->nullable();
             $table->string('fax')->nullable();
             $table->string('auto_attendant')->nullable();
+            $table->string('script')->nullable();
+
             $table->timestamps();
         });
     }

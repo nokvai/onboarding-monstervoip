@@ -1,8 +1,16 @@
 <form id="onboardingForm" class="forms-sample" autocomplete="off" action="/onboarding/store" method="post">
     {{ csrf_field() }}
     <tr id="createNew">
+        @if($company_name == 'All Onboarding')
         <td>
+            <input type="text" id="company_name" class="form-control" name="company_name" value="{{ $company_name }}" placeholder="Company Name" autocomplete="off">
+        </td>
+        @else
+        <td style="display: none;">
             <input type="text" hidden id="company_name" class="form-control" name="company_name" value="{{ $company_name }}" placeholder="Company Name" autocomplete="off">
+        </td>
+        @endif
+        <td>
             <input type="text" id="extension" class="form-control" name="extension" placeholder="Extension" autocomplete="off" required>
         </td>
         <td>
@@ -68,7 +76,7 @@
         <td>
             <select id="call_queue" class="form-control" name="call_queue">
                 <option value=""></option>
-                <option value="Round-robin (longest idle)">Round-robin (longest idle)</option>
+                <option value="Round-robin">Round-robin</option>
                 <option value="Ring All">Ring All</option>
                 <option value="Linear Hunt">Linear Hunt</option>
                 <option value="Linear Cascade">Linear Cascade</option>
@@ -79,19 +87,16 @@
                 $(document).ready(function() {
                     $("#call_queue").change(function() {
                         var v = $("#call_queue").val();
-                        if (v == "Round-robin (longest idle)") {
-                            $("#call_queueHelp").text('this type of queue routes callers to the available agent that has been idle longest.');
+                        if (v == "Round-robin") {
+                            $("#call_queueHelp").text('(longest idle) - This type of queue routes callers to the available agent that has been idle longest.');
                         } else if (v == "Ring All") {
-                            $("#call_queueHelp").text('this type of queue routes callers to all available agents at the same time.');
-
+                            $("#call_queueHelp").text('This type of queue routes callers to all available agents at the same time.');
                         } else if (v == "Linear Hunt") {
-                            $("#call_queueHelp").text("this type of queue routes callers to the available agents in a predefined order. The order is defined when editing the queue's agents.");
-
+                            $("#call_queueHelp").text("This type of queue routes callers to the available agents in a predefined order. The order is defined when editing the queue's agents.");
                         } else if (v == "Linear Cascade") {
-                            $("#call_queueHelp").text("this type of queue routes callers to groups of available agents in a predefined order. The order is defined when editing the queue's agents.");
-
+                            $("#call_queueHelp").text("This type of queue routes callers to groups of available agents in a predefined order. The order is defined when editing the queue's agents.");
                         } else if (v == "Call Park") {
-                            $("#call_queueHelp").text('this feature places the caller on hold until an agent retrieves them. It is not used for ACD functionality.');
+                            $("#call_queueHelp").text('This feature places the caller on hold until an agent retrieves them. It is not used for ACD functionality.');
                         }
                     });
                 });
@@ -99,6 +104,13 @@
         </td>
         <td>
             <input type="checkbox" id="has_music_on_hold" class="form-control" name="has_music_on_hold">
+            <small id="has_music_on_holdHelp" class="form-text text-muted">
+                Application:<br /><br />
+                * Music on Hold for regular callers<br />
+                * Music on Hold for a specific extension<br />
+                * Music on Hold for Call Queues<br /><br />
+                MonsterVoIP provides default music to be used for regular on hold music. You may change this by uploading your MP3 or WAV files.
+            </small>
         </td>
         <td>
             <select id="music_on_hold" class="form-control" name="music_on_hold">
@@ -115,9 +127,39 @@
                 <option value="Fax machine">Fax machine</option>
                 <option value="Sending fax to email">Sending fax to email</option>
             </select>
+
+            <small id="faxHelp" class="form-text text-muted"></small>
+            <script>
+                $(document).ready(function() {
+                    $("#fax").change(function() {
+                        var v = $("#fax").val();
+                        if (v == "Fax machine") {
+                            $("#faxHelp").text('');
+                        } else if (v == "Sending fax to email") {
+                            $("#faxHelp").text('Through PDF and can be printed out.');
+                        }
+                    });
+                });
+            </script>
         </td>
         <td>
-            <input type="checkbox" id="auto_attendant" class="form-control" name="auto_attendant">
+            <input type="checkbox" id="auto_attendant" onclick="clickAutoAttendant()" class="form-control" name="auto_attendant">
+            <small id="auto_attendantHelp" class="form-text text-muted">Also known as digital receptionist, auto attendant is a voice menu system that allows callers to be transferred to an extension without going through a telephone operator or receptionist.<small>
+                    <script>
+                        function clickAutoAttendant() {
+                            $(document).ready(function() {
+                                var v = $("input#auto_attendant").attr('checked');
+                                if (v) {
+                                    $("#auto_attendantHelp").text('Can use an existing audio script on an .mp3 or .wav format. If none, can record via portal. Please provide your script for us to set the menu up.');
+                                } else {
+                                    $("#auto_attendantHelp").text('');
+                                }
+                            });
+                        }
+                    </script>
+        </td>
+        <td>
+            <textarea class="form-control" id="script" name="script"></textarea>
         </td>
 
         <td>
@@ -133,6 +175,8 @@
         </td>
     </tr>
 </form>
+
+
 
 <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
