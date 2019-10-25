@@ -41,9 +41,6 @@
             <input type="text" id="number_assigned" class="form-control" name="number_assigned" placeholder="Number Assigned" autocomplete="off">
         </td>
         <td>
-            <input type="text" id="portal_access" class="form-control" name="portal_access" placeholder="Portal Access" autocomplete="off">
-        </td>
-        <td>
             <input type="text" id="department" class="form-control" name="department" placeholder="Department" autocomplete="off">
         </td>
         <td>
@@ -69,6 +66,21 @@
                 <option value="Central">Central Daylight Time</option>
                 <option value="Eastern">Eastern Daylight Time</option>
             </select>
+            <small id="time_zoneHelp" class="form-text text-muted">
+                Please choose from the dropdown.
+            </small>
+            <script>
+                $(document).ready(function() {
+                    $("#time_zone").change(function() {
+                        var v = $("#time_zone").val();
+                        if (v == "") {
+                            $("#time_zoneHelp").text('Please choose from the dropdown.');
+                        } else {
+                            $("#time_zoneHelp").text('');
+                        }
+                    });
+                });
+            </script>
         </td>
         <td>
             <input type="text" id="business_hours" class="form-control" name="business_hours" placeholder="Business Hours" autocomplete="off" required>
@@ -82,7 +94,9 @@
                 <option value="Linear Cascade">Linear Cascade</option>
                 <option value="Call Park">Call Park</option>
             </select>
-            <small id="call_queueHelp" class="form-text text-muted"></small>
+            <small id="call_queueHelp" class="form-text text-muted">
+                Please choose from the dropdown.
+            </small>
             <script>
                 $(document).ready(function() {
                     $("#call_queue").change(function() {
@@ -97,20 +111,34 @@
                             $("#call_queueHelp").text("This type of queue routes callers to groups of available agents in a predefined order. The order is defined when editing the queue's agents.");
                         } else if (v == "Call Park") {
                             $("#call_queueHelp").text('This feature places the caller on hold until an agent retrieves them. It is not used for ACD functionality.');
+                        } else if (v == "") {
+                            $("#call_queueHelp").text(' Please choose from the dropdown.');
                         }
                     });
                 });
             </script>
         </td>
         <td>
-            <input type="checkbox" id="has_music_on_hold" class="form-control" name="has_music_on_hold">
+            <select id="has_music_on_hold" class="form-control" name="has_music_on_hold">
+                <option value=""></option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
             <small id="has_music_on_holdHelp" class="form-text text-muted">
-                Application:<br /><br />
-                * Music on Hold for regular callers<br />
-                * Music on Hold for a specific extension<br />
-                * Music on Hold for Call Queues<br /><br />
-                MonsterVoIP provides default music to be used for regular on hold music. You may change this by uploading your MP3 or WAV files.
+                Please choose from the dropdown.
             </small>
+            <script>
+                $(document).ready(function() {
+                    $("#has_music_on_hold").change(function() {
+                        var v = $("#has_music_on_hold").val();
+                        if (v == "") {
+                            $("#has_music_on_holdHelp").text('Please choose from the dropdown.');
+                        } else {
+                            $("#has_music_on_holdHelp").text('');
+                        }
+                    });
+                });
+            </script>
         </td>
         <td>
             <select id="music_on_hold" class="form-control" name="music_on_hold">
@@ -120,6 +148,13 @@
                 <option value="ponce-preludio-in-e-major-16khz">ponce-preludio-in-e-major-16khz</option>
                 <option value="suite-espanola-op-47-leyenda-16khz">suite-espanola-op-47-leyenda-16khz</option>
             </select>
+            <small id="music_on_holdHelp" class="form-text text-muted">
+                Application:<br /><br />
+                * Music on Hold for regular callers<br />
+                * Music on Hold for a specific extension<br />
+                * Music on Hold for Call Queues<br /><br />
+                MonsterVoIP provides default music to be used for regular on hold music. You may change this by uploading your MP3 or WAV files.
+            </small>
         </td>
         <td>
             <select id="fax" class="form-control" name="fax">
@@ -127,8 +162,9 @@
                 <option value="Fax machine">Fax machine</option>
                 <option value="Sending fax to email">Sending fax to email</option>
             </select>
-
-            <small id="faxHelp" class="form-text text-muted"></small>
+            <small id="faxHelp" class="form-text text-muted">
+                Please choose from the dropdown.
+            </small>
             <script>
                 $(document).ready(function() {
                     $("#fax").change(function() {
@@ -137,29 +173,38 @@
                             $("#faxHelp").text('');
                         } else if (v == "Sending fax to email") {
                             $("#faxHelp").text('Through PDF and can be printed out.');
+                        } else if (v == "") {
+                            $("#faxHelp").text('Please choose from the dropdown.');
                         }
                     });
                 });
             </script>
         </td>
         <td>
-            <input type="checkbox" id="auto_attendant" onclick="clickAutoAttendant()" class="form-control" name="auto_attendant">
-            <small id="auto_attendantHelp" class="form-text text-muted">Also known as digital receptionist, auto attendant is a voice menu system that allows callers to be transferred to an extension without going through a telephone operator or receptionist.<small>
-                    <script>
-                        function clickAutoAttendant() {
-                            $(document).ready(function() {
-                                var v = $("input#auto_attendant").attr('checked');
-                                if (v) {
-                                    $("#auto_attendantHelp").text('Can use an existing audio script on an .mp3 or .wav format. If none, can record via portal. Please provide your script for us to set the menu up.');
-                                } else {
-                                    $("#auto_attendantHelp").text('');
-                                }
-                            });
+            <select id="auto_attendant" class="form-control" name="auto_attendant">
+                <option value=""></option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+            <small id="auto_attendantHelp" class="form-text text-muted"></small>
+            <script>
+                $(document).ready(function() {
+                    $("#auto_attendant").change(function() {
+                        var v = $("#auto_attendant").val();
+                        if (v == "Yes") {
+                            $("#auto_attendantHelp").text('Can use an existing audio script on an .mp3 or .wav format. If none, can record via portal. Please provide your script for us to set the menu up.');
+                        } else if (v == "No") {
+                            $("#auto_attendantHelp").text('');
+                        } else if (v == "") {
+                            $("#auto_attendantHelp").text('Please choose from the dropdown.');
                         }
-                    </script>
+                    });
+                });
+            </script>
         </td>
         <td>
-            <textarea class="form-control" id="script" name="script"></textarea>
+            <textarea class="form-control" id="script" name="script">
+        </textarea>
         </td>
 
         <td>

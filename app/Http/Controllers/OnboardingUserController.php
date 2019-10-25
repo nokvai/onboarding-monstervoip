@@ -64,7 +64,6 @@ class OnboardingUserController extends Controller
         $onboardinguser->mac_address = request('mac_address');
         $onboardinguser->number_assigned = request('number_assigned');
         $onboardinguser->department = request('department');
-        $onboardinguser->portal_access = request('portal_access');
         $onboardinguser->user_scope = request('user_scope');
         $onboardinguser->vm_2_email = request('vm_2_email');
         $onboardinguser->missed_call_email = request('missed_call_email');
@@ -159,7 +158,6 @@ class OnboardingUserController extends Controller
         $onboardinguser->mac_address = request('mac_address');
         $onboardinguser->number_assigned = request('number_assigned');
         $onboardinguser->department = request('department');
-        $onboardinguser->portal_access = request('portal_access');
         $onboardinguser->user_scope = request('user_scope');
         $onboardinguser->vm_2_email = request('vm_2_email');
         $onboardinguser->missed_call_email = request('missed_call_email');

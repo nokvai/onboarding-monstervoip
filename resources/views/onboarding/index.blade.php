@@ -35,8 +35,6 @@
         var tr = $("#createNew");
         tr.hide();
 
-        // $('#example tbody').append(tr);
-
         var btnAdd = $('<button />').attr('id', 'btnAdd').addClass('btn btn-primary').text('Add New');
         divAddRecord.append(btnAdd);
         $('#main-div').append(divAddRecord);
@@ -81,7 +79,6 @@
                             <td class="onboard-col-w">Mac Address</td>
                             <td class="onboard-col-w">Number Assigned</td>
                             <td class="onboard-col-w">Department</td>
-                            <td class="onboard-col-w">Portal Access</td>
                             <td class="onboard-col-w">User Scope</td>
                             <td class="onboard-col-w">VM 2 Email</td>
                             <td class="onboard-col-w">Missed Call Email</td>
@@ -89,11 +86,11 @@
                             <td class="onboard-col-w">Time Zone</td>
                             <td class="onboard-col-w">Business Hours</td>
                             <td class="onboard-col-w">Call Queue</td>
-                            <td class="onboard-col-w4">Has Music On Hold</td>
-                            <td class="onboard-col-w">Music On Hold</td>
+                            <td class="onboard-col-w2">Has Music On Hold</td>
+                            <td class="onboard-col-w4">Music On Hold</td>
                             <td class="onboard-col-w">Fax</td>
-                            <td class="onboard-col-w3">Using an Auto Attendant</td>
-                            <td class="onboard-col-w2">Audio Script</td>
+                            <td class="onboard-col-w2">Using an Auto Attendant</td>
+                            <td class="onboard-col-w3">Audio Script</td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -115,7 +112,6 @@
                             <td>{{ $ob->mac_address }}</td>
                             <td>{{ $ob->number_assigned }}</td>
                             <td>{{ $ob->department }}</td>
-                            <td>{{ $ob->portal_access }}</td>
                             <td>{{ $ob->user_scope }}</td>
                             <td>{{ $ob->vm_2_email }}</td>
                             <td>{{ $ob->missed_call_email }}</td>
@@ -146,22 +142,8 @@
                                                 $("select#music_on_hold").val(data.music_on_hold).trigger('change');
                                                 $("select#fax").val(data.fax).trigger('change');
 
-                                                if (data.has_music_on_hold == 'Yes') {
-                                                    $("input#has_music_on_hold").attr('checked', 'checked');
-
-                                                } else {
-                                                    $("input#has_music_on_hold").removeAttr('checked');
-
-                                                }
-                                                $("input#has_music_on_hold").trigger('change');
-
-                                                if (data.auto_attendant == 'Yes') {
-                                                    $("input#auto_attendant").attr('checked', 'checked');
-                                                } else {
-                                                    $("input#auto_attendant").removeAttr('checked');
-                                                }
-
-                                                $("input#auto_attendant").trigger('change');
+                                                $("select#has_music_on_hold").val(data.has_music_on_hold).trigger('change');
+                                                $("select#music_on_hold").val(data.music_on_hold).trigger('change');
 
                                             }, 100);
                                         });

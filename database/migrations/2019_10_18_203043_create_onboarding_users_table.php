@@ -27,8 +27,7 @@ class CreateOnboardingUsersTable extends Migration
             $table->string('mac_address')->nullable();
             $table->string('number_assigned')->nullable();
             $table->string('department')->nullable();
-            $table->string('portal_access')->nullable();
-            $table->string('user_scope')->nullable();
+            $table->string('user_scope')->nullable(); //Basic or Manager
             $table->string('vm_2_email')->nullable();
             $table->string('missed_call_email')->nullable();
             $table->string('call_recording')->nullable();
