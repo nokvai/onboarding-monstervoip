@@ -16,7 +16,10 @@ Route::get('/', function () {
 });
 
 Route::get('/onboarding/index/{company_name}', 'OnboardingUserController@index');
-Route::get('/onboarding/index', 'OnboardingUserController@index')->name('onboardingindex');
+Route::get('/onboarding/index', function () {
+    return view('specifycompany');
+})->name('onboardingindex');
+
 Route::get('onboarding/edit/{id}', 'OnboardingUserController@edit')->name('editonboarding');
 Route::get('onboarding/edit2/{id}', 'OnboardingUserController@edit2');
 Route::post('/onboarding/store', 'OnboardingUserController@store');

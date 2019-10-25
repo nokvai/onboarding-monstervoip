@@ -16,7 +16,7 @@ class OnboardingUserController extends Controller
      */
     public function index($company_name)
     {
-        // dd($company_name);
+
         if ($company_name == "All Onboarding") {
             $onboardinguser = OnboardingUser::all();
             return view('onboarding.index', compact(['onboardinguser', 'company_name']));
@@ -24,6 +24,9 @@ class OnboardingUserController extends Controller
             $onboardinguser = OnboardingUser::where('company_name', $company_name)->get();
             return view('onboarding.index', compact(['onboardinguser', 'company_name']));
         }
+
+        // dd($company_name);
+
         //$company_name = Session::get('onboarding_company');
         // $onboardinguser = OnboardingUser::where('company_name', $company_name)->orderBy('created_at', 'desc')->get();
 
